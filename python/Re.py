@@ -22,4 +22,11 @@ def Re(vel,l,nu):
     rho - densidade (kg/m3)
     
     '''
-    return vel*l/nu
+    Re = vel*l/nu
+    if Re<10.0:
+        print('Escoamento laminar')
+    elif Re>10000.0:
+        print('Escoamento turbulento')
+    else:
+        print('Transicao laminar-turbulento')
+    return Re
