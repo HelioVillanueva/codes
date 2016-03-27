@@ -3,6 +3,7 @@
 
 import numpy as np
 from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 # -- Vetor gravidade
 g = np.array([0,-9.81,0])
 
