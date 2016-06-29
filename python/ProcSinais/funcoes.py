@@ -4,10 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def fTriang(ini,end,points,impr):
-    '''Gera funcao triangulo
-        ini - comeco da funcao
-        end - final
-        points - numero de pontos
+    '''Gera funcao triangulo\n
+        ini - comeco da funcao\n
+        end - final\n
+        points - numero de pontos\n
         impr - plota grafico da funcao com o arg 'y'
     '''
     t = np.linspace(ini,end,points)
@@ -26,13 +26,13 @@ def fTriang(ini,end,points,impr):
     return e
     
 def fJanela(ini,end,points,inijan,endjan,intjan,impr):
-    '''Gera funcao janela/retangular
-        ini - comeco da funcao
-        end - final
-        points - numero de pontos
-        inijan - inicio da janela
-        endjan - final da janela
-        intjan - intensidade
+    '''Gera funcao janela/retangular\n
+        ini - comeco da funcao\n
+        end - final\n
+        points - numero de pontos\n
+        inijan - inicio da janela\n
+        endjan - final da janela\n
+        intjan - intensidade\n
         impr - plota grafico da funcao com o arg 'y'
     '''
     t = np.linspace(ini,end,points)
@@ -44,7 +44,7 @@ def fJanela(ini,end,points,inijan,endjan,intjan,impr):
             
     if impr == 'y':
         plt.figure()        
-        plt.plot(t,e,'-*')
+        plt.step(t,e,where='mid')
         plt.grid(which='major', axis='both')
         plt.xlabel('t - time')
         plt.ylabel('e')
@@ -52,11 +52,11 @@ def fJanela(ini,end,points,inijan,endjan,intjan,impr):
     return e
 
 def fPenteDirac(ini,end,points,pts,impr):
-    '''Gera funcao pente de Dirac
-        ini - comeco da funcao
-        end - final
-        points - numero de pontos
-        pts - lista com pontos onde pente e 1
+    '''Gera funcao pente de Dirac\n
+        ini - comeco da funcao\n
+        end - final\n
+        points - numero de pontos\n
+        pts - lista com pontos onde pente e 1\n
         impr - plota grafico da funcao com o arg 'y'
     '''
     t = np.linspace(ini,end,points)
@@ -66,7 +66,7 @@ def fPenteDirac(ini,end,points,pts,impr):
     
     if impr == 'y':
         plt.figure()        
-        plt.plot(t,e,'-*')
+        plt.step(t,e,'*-',where='post')
         plt.grid(which='major', axis='both')
         plt.xlabel('t - time')
         plt.ylabel('e')
