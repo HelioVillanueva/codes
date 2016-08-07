@@ -54,3 +54,36 @@ class Read(object):
                 
             self.field = np.array(self.field)
             
+class ProbesRead(object):
+    '''Classe para ler data gerada pelo postProcess do OpenFOAM'''
+    
+    def __init__(self,OFfile):
+        self.OFfile = os.getcwd() + '/postProcessing/probes/0/' + OFfile
+        
+        with open(self.OFfile,'r') as f:
+            data_raw = f.read()
+            
+        self.data_raw = data_raw
+        
+        ## Separa header com comentarios
+        data2 = self.data_raw.split("Time\n")[1]
+        
+        ## Divide linhas
+        data2 = data2.split('\n')
+
+        data = []
+        
+        ## Divide todos dados em uma matriz
+        for i in data2:
+            lines = i.strip()
+            lines = lines.split()
+            if lines!=[]:
+                lines = map(float,lines)
+                data.append(lines)
+            else:
+                print('\nWarning: Possible space between lines or at the EOF.\n')
+            
+        data = np.asarray(data)
+        self.probes = np.transpose(data[:,1:])
+        self.time = data[:,0]        
+        
