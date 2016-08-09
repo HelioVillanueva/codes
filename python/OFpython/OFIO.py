@@ -11,6 +11,7 @@ Le arquivos de solucao do OpenFOAM na forma de NumPy array
 import re
 import numpy as np
 import os
+from scipy import signal
 
 class Read(object):
     '''Classe para ler campos resultados do OpenFOAM.
@@ -87,3 +88,33 @@ class ProbesRead(object):
         self.probes = np.transpose(data[:,1:])
         self.time = data[:,0]        
         
+        self.mean = np.mean(self.probes,axis=1)
+        fluct = np.zeros_like(self.probes)
+        self.corr = []
+        self.pad = []
+        self.fft = []
+        self.freq = []
+        self.psd = []
+        
+        ## faz calculo para cada probe na forma de listas
+        for i,col in enumerate(self.mean):
+            fluct[i] = self.probes[i] - col
+            cor = np.correlate(fluct[i],fluct[i],mode='full')
+            self.corr.append(cor/max(cor))
+            
+            ## Windows signal processing
+            #window = np.hanning(self.corr[i].size)
+            nutall = signal.nuttall(self.corr[i].size)
+            
+            ## Anti aliasing    
+            self.corr[i] = self.corr[i]*nutall
+            
+            ## zero padding
+            self.pad.append(np.pad(self.corr[i],2*self.corr[i].size,mode='constant'))
+            
+            ## Fourrier Transform
+            self.fft.append(np.fft.rfft(self.pad[i]))
+            self.freq.append(np.fft.rfftfreq(self.pad[i].size))
+            self.psd.append(np.abs(self.fft[i]))
+            
+        self.meanPSD = np.mean(self.psd,axis=0)
