@@ -114,7 +114,7 @@ class ProbesRead(object):
             
             ## Fourrier Transform
             self.fft.append(np.fft.rfft(self.pad[i]))
-            self.freq.append(np.fft.rfftfreq(self.pad[i].size))
+            self.freq = (np.fft.rfftfreq(self.pad[i].size))
             self.psd.append(np.abs(self.fft[i]))
             
         self.meanPSD = np.mean(self.psd,axis=0)
