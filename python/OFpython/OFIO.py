@@ -59,9 +59,10 @@ class ProbesRead(object):
     '''Classe para ler data gerada pelo postProcess do OpenFOAM'''
     
     def __init__(self,OFfile):
-        self.OFfile = os.getcwd() + '/postProcessing/probes/0/' + OFfile
+        self.OFfile = OFfile
+        OFfilePath = os.getcwd() + '/postProcessing/probes/' + OFfile
         
-        with open(self.OFfile,'r') as f:
+        with open(OFfilePath,'r') as f:
             data_raw = f.read()
             
         self.data_raw = data_raw
@@ -99,7 +100,11 @@ class ProbesRead(object):
         ## faz calculo para cada probe na forma de listas
         for i,col in enumerate(self.mean):
             fluct[i] = self.probes[i] - col
-            cor = np.correlate(fluct[i],fluct[i],mode='full')
+            
+            nutall1 = signal.nuttall(fluct[i].size)
+            
+            
+            cor = np.correlate(fluct[i]*nutall1,fluct[i]*nutall1,mode='full')
             self.corr.append(cor/max(cor))
             
             ## Windows signal processing
@@ -118,3 +123,4 @@ class ProbesRead(object):
             self.psd.append(np.abs(self.fft[i]))
             
         self.meanPSD = np.mean(self.psd,axis=0)
+        self.fluct = fluct
