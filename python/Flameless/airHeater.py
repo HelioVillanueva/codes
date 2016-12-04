@@ -50,7 +50,8 @@ class preHeat(object):
     '''
     Air_m = ct.Solution('air.xml')
     
-    def __init__(self,n,massFlow,T_out,h,d,D,amb_Temp=21.0,Tmax=1000.0,p=0.01,Ap=8.9076535e-4):
+    def __init__(self,n,massFlow,T_out,h,d,D,amb_Temp=21.0,
+                 Tmax=1000.0,p=0.01,Ap=8.9076535e-4):
         self.n = n
         self.massFlow = massFlow
         self.T_out = T_out
